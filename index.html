@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project tracker</title>
+    <meta charset="utf-8">
+
+    <!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+
+	<!-- INCLUDE APPLICATION SPECIFIC CSS AND JAVASCRIPT -->
+	<script type="text/javascript" src="js/project-tracker-app/app.js"></script>
+	<script type="text/javascript" src="js/project-tracker-app/controllers/mainController.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class='banner'>
+        <div class='container'>
+            <h1>Project Expenses</h1>
+        </div>
+    </div>
+
+    <div class="container main-frame" ng-app="ProjectTrackerApp" ng-controller="mainController" ng-init="init()">
+
+      <div class="search-box row-fluid form-inline">
+        <label>Filter: </label>
+        <input type="text" ng-model="filterText"/>
+        <label>Genre: </label>
+        <select ng-model="genreFilter" ng-options="label for label in availableGenres">
+          <option value="">All</option>
+        </select>
+        <label>Order by: </label>
+        <select ng-model="orderField" ng-options="label for label in orderFields" class="input-medium"></select>
+        <select ng-model="orderReverse"class="input-medium">
+          <option value="true">Descending</option>
+          <option value="false">Ascending</option>
+        </select>
+      </div>
+
+      <div class="results-top"></div>
+
+      <div class="results-container">
+        <ul class="episode-list">
+          <!-- <li ng-repeat="project in results | filter: filterText | isGenre:genreFilter | orderBy:customOrder:orderReverse"> -->
+          <li ng-repeat="project in results">
+            <div class="row-fluid">
+              <div class="span3">
+                <img src="{{project.episode.images.screen}}" />
+                <div class="ratings"><strong>Ratings:</strong>
+                  <span class="label"><i class="icon-thumbs-up"></i> {{project.id}}</span>
+                  <span class="label"><i class="icon-thumbs-down"></i> {{project.id}}</span>
+                  <span class="label label-important" ng-class="{'label-success': project.price >= 6}"><strong>%</strong> {{project.episode.ratings.percentage}}
+                </div>
+              </div>
+              <div class="span6">
+                <h3>{{project.name}}: {{project.price}}</h3>
+                <p>{{project.id}}</p>
+              </div>
+              <div class="span3">
+                <div class="fulldate pull-right label label-info">{{project.date}}</div>
+                  <ul class="show-info">
+                    <li><strong>On Air:</strong> {{project.name}} {{project.show.air_time}}</li>
+                    <li><strong>Network:</strong> {{project.show.network}}</li>
+                    <li><strong>Season #:</strong> {{project.name}}</li>
+                    <li><strong>Genres:</strong> <span class="label label-inverse genre" ng-repeat="genre in project.show.genres" ng-click="setGenreFilter(genre)">{{genre}}</span></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+        </ul>
+      </div>
+    <div class="results-bottom"></div>
+  </div>
+</body>
+</html>
